@@ -31,6 +31,7 @@ To copy image files from the container to host, use `docker ps` to find containe
 
 ```bash
 docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap ./build/tmp/deploy/images/raspberrypi/
+docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 ./build/tmp/deploy/images/raspberrypi/
 ```
 
 ## Write image to SD card
