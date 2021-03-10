@@ -67,6 +67,22 @@ sudo bmaptool copy --bmap build/tmp/deploy/images/raspberrypi/core-image-base-ra
 
 Note the `r` in device path i.e. `/dev/rdisk2` in the example above.
 
+## Configure Wi-Fi
+
+Use `wpa_passphrase` utility to print out network configuration
+
+```bash
+wpa_passphrase ssid password
+```
+
+Copy the output and add, all but the commented out plain text password line, to end of `/etc/wpa_supplicant.conf`.
+
+Bring up the Wi-Fi network
+
+```bash
+ifup wlan0
+```
+
 ## Serial console
 
 To enable [serial console through expansion headers](https://www.raspberrypi.org/documentation/configuration/uart.md), add `console=ttyAMA0,115200` to kernel command line in file `cmdline.txt` on boot partition
