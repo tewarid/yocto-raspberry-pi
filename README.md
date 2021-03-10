@@ -47,7 +47,7 @@ sudo apt install bmap-tools
 Use `lsblk` to find SD card device, and
 
 ```bash
-sudo bmaptool copy --bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 /dev/sda
+sudo bmaptool copy --bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 /dev/sdb
 ```
 
 On macOS, to install bmaptool
