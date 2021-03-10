@@ -84,6 +84,21 @@ Bring up the Wi-Fi network
 ifup wlan0
 ```
 
+## Configure Bluetooth
+
+Bring up interface and make device discoverable
+
+```bash
+hciconfig hci0 up
+hciconfig hci0 piscan
+```
+
+DBUS can also used to bring up interface programmatically
+
+```bash
+dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0 org.freedesktop.DBus.Properties.Set string:"org.bluez.Adapter1" string:"Powered" variant:boolean:true
+```
+
 ## Serial console
 
 To enable [serial console through expansion headers](https://www.raspberrypi.org/documentation/configuration/uart.md), add `console=ttyAMA0,115200` to kernel command line in file `cmdline.txt` on boot partition
