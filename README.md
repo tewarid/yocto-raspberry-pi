@@ -23,22 +23,37 @@ raspberrypi3      | Raspberry Pi 3 32-bit build
 raspberrypi4-64   | Raspberry Pi 4 64-bit build
 raspberrypi4      | Raspberry Pi 4 32-bit build
 
-## Evaluate build output
+## Incremental build
 
-To evaluate build output, use `docker image ls` to find image id, then create a container using `docker run -it image_id`.
+To perform an incremental build inside a container, use `docker image ls` to find id of image and create a container
 
-To copy image files from the container to host, use `docker ps` to find container id, then use [docker cp](https://docs.docker.com/engine/reference/commandline/cp/) e.g.
+```bash
+docker run -it image_id
+```
+
+Make the necessary changes to source code, and
+
+```bash
+source poky/oe-init-build-env
+bitbake core-image-base
+```
+
+Note that bitbake may fail with [Invalid cross-device link error](https://bugzilla.yoctoproject.org/show_bug.cgi?id=14301). Follow the link for additional information and a patch.
+
+## Write image to SD card
+
+If you haven't yet created a container from the image you built using `docker build`, see [Incremental build](#incremental-build)
+
+To copy image files from the Docker container to host, use `docker ps` to find container id, then use [docker cp](https://docs.docker.com/engine/reference/commandline/cp/) e.g.
 
 ```bash
 docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap ./build/tmp/deploy/images/raspberrypi/
 docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 ./build/tmp/deploy/images/raspberrypi/
 ```
 
-## Write image to SD card
-
 To write image to a SD card, use bmaptool.
 
-On Ubuntu, to install bmaptool
+To install bmaptool on Ubuntu
 
 ```bash
 sudo apt install bmap-tools
@@ -50,7 +65,7 @@ Use `lsblk` to find SD card device, and
 sudo bmaptool copy --bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 /dev/sdb
 ```
 
-On macOS, to install bmaptool
+To install bmaptool on macOS
 
 ```bash
 git clone https://github.com/intel/bmap-tools.git
