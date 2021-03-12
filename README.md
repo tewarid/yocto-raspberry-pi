@@ -36,7 +36,7 @@ docker run -it image_id
 Make the necessary changes to source code, and
 
 ```bash
-source poky/oe-init-build-env
+source layers/poky/oe-init-build-env
 bitbake core-image-base
 ```
 

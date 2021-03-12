@@ -14,7 +14,7 @@ WORKDIR /home/pi/yocto-raspberry-pi
 SHELL ["/bin/bash", "-c"] 
 
 RUN git submodule update --init --recursive \
-    && source poky/oe-init-build-env \
+    && source layers/poky/oe-init-build-env \
     && bitbake core-image-base
 
 # At this point you can copy files to host to cache/deploy/stage
