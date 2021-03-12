@@ -2,6 +2,7 @@
 build/bitbake-cookerdaemon.log
 build/bitbake.lock
 build/cache/
-build/downloads/
+# you may cache downloads to this location after a successful build
+#build/downloads/
 build/sstate-cache/
 build/tmp/

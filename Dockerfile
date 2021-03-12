@@ -17,4 +17,4 @@ RUN git submodule update --init --recursive \
     && source poky/oe-init-build-env \
     && bitbake core-image-base
 
-# At this point you can copy images to host
+# At this point you can copy files to host to cache/deploy/stage
