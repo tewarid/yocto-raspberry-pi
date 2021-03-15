@@ -4,3 +4,6 @@
 [submodule "meta/meta-raspberrypi"]
 	path = layers/meta-raspberrypi
 	url = http://git.yoctoproject.org/git/meta-raspberrypi
+[submodule "layers/meta-openembedded"]
+	path = layers/meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded

@@ -101,6 +101,32 @@ Bring up the Wi-Fi network
 ifup wlan0
 ```
 
+## Configure Software Access Point
+
+If you want to configure the Raspberry Pi as a software access point (SoftAP/hotspot) and access it via ssh, follow the instructions at [Setting up a Raspberry Pi as a routed wireless access point](https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md).
+
+Notes
+
+1. You're logged in as root so there's no need for sudo
+
+2. nano is not available in the image, so you'll have to use vi to edit files
+
+3. hostapd and dnsmasq are available in the image
+
+4. iptables is not available so you will not be able to route ip packets to another network
+
+5. dhcpcd is not available in the image so you cannot edit `/etc/dhcpcd.conf`
+
+6. You can use the following command to bring up wlan0 interface and assign a static IP address
+
+    ```bash
+    ifconfig wlan0 up 192.168.4.1 netmask 255.255.255.0
+    ```
+
+7. `hostapd.conf` is available at `/etc/hostapd.conf`
+
+8. You'll need to start hostapd service manually using `systemctl start hostapd`
+
 ## Configure Bluetooth
 
 Bring up interface and make device discoverable
