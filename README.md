@@ -23,8 +23,6 @@ raspberrypi3      | Raspberry Pi 3 32-bit build
 raspberrypi4-64   | Raspberry Pi 4 64-bit build
 raspberrypi4      | Raspberry Pi 4 32-bit build
 
-A downloads cache can be setup under `build/downloads`. It will be copied into the image along with the source code. This can reduce build times by about 50%.
-
 ## Incremental build
 
 To perform an incremental build inside a container, use `docker image ls` to find id of image and create a container
@@ -41,6 +39,16 @@ bitbake core-image-base
 ```
 
 Note that bitbake may fail with [Invalid cross-device link error](https://bugzilla.yoctoproject.org/show_bug.cgi?id=14301). Follow the link for additional information and a patch.
+
+## Download cache
+
+A downloads cache can be setup under `build/downloads`. It will be copied into the image along with the source code. This can reduce build times significantly.
+
+To copy download folder from a container to the host
+
+```bash
+docker cp container_id:/home/pi/yocto-raspberry-pi/build/downloads build/
+```
 
 ## Write image to SD card
 
