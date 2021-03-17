@@ -158,14 +158,10 @@ To enable [serial console through expansion headers](https://www.raspberrypi.org
 dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4 console=ttyAMA0,115200 console=tty1 rootwait
 ```
 
-To get a login prompt, edit `/etc/inittab` to add
+At the end of file `config.txt` on boot partition, add
 
-```text
-AMA0:12345:respawn:/sbin/getty -L 115200 ttyAMA0
-```
-
-For Raspberry Pi 3, 4, and Zero Wi-Fi, at the end of file `config.txt` on boot partition, add
-
-```text
+```conf
+enable_uart=1
+# Disable Bluetooth for Raspberry Pi 3, 4, and Zero W only
 dtoverlay=disable-bt
 ```
