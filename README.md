@@ -2,11 +2,15 @@
 
 You can use this repo to build a Linux system based on the Yocto Project and its [meta-raspberrypi](https://github.com/agherzan/meta-raspberrypi) layer using Docker.
 
+## Build instructions
+
 Clone this repo and run
 
 ```bash
 docker build .
 ```
+
+### Pick a different Raspberry Pi
 
 By default, the image is built for Raspberry Pi Zero Wi-Fi. Edit `MACHINE` in [local.conf](build/conf/local.conf) to build for a different [model](meta/meta-raspberrypi/conf/machine/)
 
@@ -23,6 +27,25 @@ raspberrypi3      | Raspberry Pi 3 32-bit build
 raspberrypi4-64   | Raspberry Pi 4 64-bit build
 raspberrypi4      | Raspberry Pi 4 32-bit build
 
+### Access private Git repos in build
+
+Run ssh-agent on host and add default ~/.ssh/id_rsa key
+
+```bash
+ssh-agent
+ssh-add
+ssh-add -l
+```
+
+The last command in the sequence above should list the key you added.
+
+Build with [BuildKit or `docker buildx`](https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/syntax.md)
+
+```bash
+export DOCKER_BUILDKIT=1
+docker build --ssh default=$SSH_AUTH_SOCK .
+```
+
 ## Incremental build
 
 To perform an incremental build inside a container, use `docker image ls` to find id of image and create a container
@@ -31,7 +54,7 @@ To perform an incremental build inside a container, use `docker image ls` to fin
 docker run -it image_id
 ```
 
-Make the necessary changes to source code, and
+Make the necessary changes to source code and rebuild
 
 ```bash
 source layers/poky/oe-init-build-env
@@ -39,6 +62,28 @@ bitbake core-image-base
 ```
 
 Note that bitbake may fail with [Invalid cross-device link error](https://bugzilla.yoctoproject.org/show_bug.cgi?id=14301). Follow the link for additional information and a patch.
+
+### Access private Git repos in Docker container
+
+Run Docker container with access to [ssh-agent on host](#access-private-git-repos-in-build)
+
+```bash
+docker run -it -v /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock -e SSH_AUTH_SOCK="/run/host-services/ssh-auth.sock" image_id
+```
+
+Since we're using a non-root user, you may get an access denied message when you run
+
+```bash
+# Access your Git server instead of example.com using ssh
+ssh git@example.com
+```
+
+If so, you will need to fix access to ssh-agent socket at least once
+
+```bash
+docker exec -u 0 -it container_id /bin/bash
+chmod 777 /run/host-services/ssh-auth.sock
+```
 
 ## Download cache
 

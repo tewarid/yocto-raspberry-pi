@@ -1,3 +1,5 @@
+#syntax=docker/dockerfile:1.2
+
 FROM ubuntu:20.04
 
 RUN apt update \
@@ -13,7 +15,7 @@ WORKDIR /home/pi/yocto-raspberry-pi
 
 SHELL ["/bin/bash", "-c"] 
 
-RUN git submodule update --init --recursive \
+RUN --mount=type=ssh,mode=777 git submodule update --init --recursive \
     && source layers/poky/oe-init-build-env \
     && bitbake core-image-base
 
