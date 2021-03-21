@@ -57,8 +57,7 @@ docker run -it image_id
 Make the necessary changes to source code and rebuild
 
 ```bash
-source layers/poky/oe-init-build-env
-bitbake core-image-base
+kas build kas-poky-raspberrypi0-wifi.yml
 ```
 
 Note that bitbake may fail with [Invalid cross-device link error](https://bugzilla.yoctoproject.org/show_bug.cgi?id=14301). Follow the link for additional information and a patch.

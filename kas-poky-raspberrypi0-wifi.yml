@@ -1,0 +1,65 @@
+header:
+  version: 8
+
+machine: raspberrypi0-wifi
+distro: poky
+target:
+  - core-image-base
+
+repos:
+  meta-raspberry:
+    url: http://git.yoctoproject.org/git/meta-raspberrypi
+    path: layers/meta-raspberrypi
+    refspec: master
+
+  poky:
+    url: http://git.yoctoproject.org/git/poky
+    path: layers/poky
+    refspec: master
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: git://git.openembedded.org/meta-openembedded
+    path: layers/meta-openembedded
+    refspec: master
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+
+bblayers_conf_header:
+  standard: |
+    POKY_BBLAYERS_CONF_VERSION = "2"
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""
+local_conf_header:
+  standard: |
+    CONF_VERSION = "1"
+    PACKAGE_CLASSES = "package_rpm"
+    SDKMACHINE = "x86_64"
+    USER_CLASSES = "buildstats image-mklibs image-prelink"
+    PATCHRESOLVE = "noop"
+  debug-tweaks: |
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"
+  diskmon: |
+    BB_DISKMON_DIRS = "\
+        STOPTASKS,${TMPDIR},1G,100K \
+        STOPTASKS,${DL_DIR},1G,100K \
+        STOPTASKS,${SSTATE_DIR},1G,100K \
+        STOPTASKS,/tmp,100M,100K \
+        ABORT,${TMPDIR},100M,1K \
+        ABORT,${DL_DIR},100M,1K \
+        ABORT,${SSTATE_DIR},100M,1K \
+        ABORT,/tmp,10M,1K"
+  custom: |
+    DISTRO_FEATURES_append = " systemd"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    EXTRA_IMAGE_FEATURES_append = " ssh-server-dropbear"
+    IMAGE_INSTALL_append = " alsa-utils python3 python3-dbus hostapd dnsmasq"
+    DISABLE_VC4GRAPHICS = "1"
+    RPI_EXTRA_CONFIG = "\n\
+    dtparam=audio=on\n\
+    "
