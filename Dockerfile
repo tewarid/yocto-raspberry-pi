@@ -9,9 +9,9 @@ RUN apt update \
 
 USER pi
 
-COPY --chown=pi:pi . /home/pi/yocto-raspberry-pi
+COPY --chown=pi:pi . /home/pi/docker-meta-raspberrypi
 
-WORKDIR /home/pi/yocto-raspberry-pi
+WORKDIR /home/pi/docker-meta-raspberrypi
 
 SHELL ["/bin/bash", "-c"] 
 
