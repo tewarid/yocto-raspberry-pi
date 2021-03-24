@@ -12,7 +12,7 @@ docker build .
 
 ### Pick a different Raspberry Pi
 
-By default, the image is built for Raspberry Pi Zero Wi-Fi. Edit `MACHINE` in [local.conf](build/conf/local.conf) to build for a different [model](meta/meta-raspberrypi/conf/machine/)
+By default, the image is built for Raspberry Pi Zero Wi-Fi. Edit `MACHINE` in [kas-poky-raspberrypi0-wifi.yml](kas-poky-raspberrypi0-wifi.yml) to build for a different [model](meta/meta-raspberrypi/conf/machine/)
 
 MACHINE           | Model
 ----------------- | -----------------------------
