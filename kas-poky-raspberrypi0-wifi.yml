@@ -54,11 +54,17 @@ local_conf_header:
         ABORT,${DL_DIR},100M,1K \
         ABORT,${SSTATE_DIR},100M,1K \
         ABORT,/tmp,10M,1K"
-  custom: |
+  systemd: |
     DISTRO_FEATURES_append = " systemd"
     VIRTUAL-RUNTIME_init_manager = "systemd"
+  sshd: |
     EXTRA_IMAGE_FEATURES_append = " ssh-server-dropbear"
-    IMAGE_INSTALL_append = " alsa-utils python3 python3-dbus hostapd dnsmasq"
+  wifi: |
+    IMAGE_INSTALL_append = " hostapd dnsmasq"
+  python: |
+    IMAGE_INSTALL_append = " python3 python3-dbus"
+  audio: |
+    IMAGE_INSTALL_append = " alsa-utils"
     DISABLE_VC4GRAPHICS = "1"
     RPI_EXTRA_CONFIG = "\n\
     dtparam=audio=on\n\
