@@ -65,7 +65,3 @@ local_conf_header:
     IMAGE_INSTALL_append = " python3 python3-dbus"
   audio: |
     IMAGE_INSTALL_append = " alsa-utils"
-    DISABLE_VC4GRAPHICS = "1"
-    RPI_EXTRA_CONFIG = "\n\
-    dtparam=audio=on\n\
-    "

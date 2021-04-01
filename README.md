@@ -137,6 +137,22 @@ sudo bmaptool copy --bmap build/tmp/deploy/images/raspberrypi/core-image-base-ra
 
 Note the `r` in device path i.e. `/dev/rdisk2` in the example above.
 
+## Audio
+
+`alsa-utils` package is built into the image. You can disable it by removing the `audio` section in kas configuration.
+
+To see a list of device names
+
+```bash
+aplay -L
+```
+
+To play test sound to HDMI display
+
+```bash
+speaker-test -c2 iec958
+```
+
 ## Configure Wi-Fi
 
 Use `wpa_passphrase` utility to print out network configuration
