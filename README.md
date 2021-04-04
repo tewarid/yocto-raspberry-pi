@@ -212,10 +212,10 @@ dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0 org.freedeskto
 
 ## Serial console
 
-To enable [serial console through expansion headers](https://www.raspberrypi.org/documentation/configuration/uart.md), add `console=ttyAMA0,115200` to kernel command line in file `cmdline.txt` on boot partition
+To enable [serial console through expansion headers](https://www.raspberrypi.org/documentation/configuration/uart.md), add `console=ttyS0,115200` to kernel command line in file `cmdline.txt` on boot partition
 
 ```text
-dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4 console=ttyAMA0,115200 console=tty1 rootwait
+dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4 console=ttyS0,115200 console=tty1 rootwait
 ```
 
 At the end of file `config.txt` on boot partition, add
