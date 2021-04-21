@@ -1,0 +1,9 @@
+# meta-voicecard
+
+This README file contains information on the contents of the meta-voicecard layer.
+
+Please see the corresponding sections below for details.
+
+## Adding the meta-voicecard layer to your build
+
+Run 'bitbake-layers add-layer meta-voicecard'
