@@ -20,6 +20,10 @@ repos:
       meta:
       meta-poky:
       meta-yocto-bsp:
+    patches:
+      use-bb.utils.rename-to-rename-file-or-directory:
+        repo: poky
+        path: ../../patches/0001-use-bb.utils.rename-to-rename-file-or-directory.patch
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
