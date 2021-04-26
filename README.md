@@ -91,7 +91,7 @@ A downloads cache can be setup under `build/downloads`. It will be copied into t
 To copy download folder from a container to the host
 
 ```bash
-docker cp container_id:/home/pi/yocto-raspberry-pi/build/downloads build/
+docker cp container_id:/home/pi/berry/build/downloads build/
 ```
 
 ## Write image to SD card
@@ -101,8 +101,8 @@ If you haven't yet created a container from the image you built using `docker bu
 To copy image files from the Docker container to host, use `docker ps` to find container id, then use [docker cp](https://docs.docker.com/engine/reference/commandline/cp/) e.g.
 
 ```bash
-docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap ./build/tmp/deploy/images/raspberrypi/
-docker cp container_id:/home/pi/yocto-raspberry-pi/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 ./build/tmp/deploy/images/raspberrypi/
+docker cp container_id:/home/pi/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap ./build/tmp/deploy/images/raspberrypi/
+docker cp container_id:/home/pi/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 ./build/tmp/deploy/images/raspberrypi/
 ```
 
 To write image to a SD card, use bmaptool.

@@ -10,9 +10,9 @@ RUN apt update \
 
 USER pi
 
-COPY --chown=pi:pi . /home/pi/docker-meta-raspberrypi
+COPY --chown=pi:pi . /home/pi/berry
 
-WORKDIR /home/pi/docker-meta-raspberrypi
+WORKDIR /home/pi/berry
 
 SHELL ["/bin/bash", "-c"] 
 
