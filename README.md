@@ -223,7 +223,7 @@ To copy download folder from a container to the host
 
 ```bash
 docker cp \
-  berrydev:/home/pi/berry/build/downloads \
+  berrydev:/home/yoctouser/berry/build/downloads \
   build/
 ```
 
@@ -316,10 +316,10 @@ To copy image files from the Docker container to host, use [docker cp](https://d
 
 ```bash
 docker cp \
-  berrydev:/home/pi/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap \
+  berrydev:/home/yoctouser/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bmap \
   build/tmp/deploy/images/raspberrypi/
 docker cp \
-  berrydev:/home/pi/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 \
+  berrydev:/home/yoctouser/berry/build/tmp/deploy/images/raspberrypi/core-image-base-raspberrypi-20210226153757.rootfs.wic.bz2 \
   build/tmp/deploy/images/raspberrypi/
 ```
 
