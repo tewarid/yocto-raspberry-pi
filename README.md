@@ -1,5 +1,7 @@
 # Embedded Linux System with Yocto Project and Docker
 
+_Slides rendered using Pandoc are available in [HTML reveal.js](presentation/slides.html) and [PDF](presentation/slides.pdf) formats._
+
 ## Objective
 
 Provide a project template to build an embedded Linux system for the Raspberry Pi using [Yocto Project](https://www.yoctoproject.org) and [Docker](https://www.docker.com).
