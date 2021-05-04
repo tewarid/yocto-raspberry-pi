@@ -82,9 +82,10 @@ Yocto Project provides no means to download layers, and setup configuration file
 
 #### Learning Resources
 
-- [Yocto Project Mega Manual](https://docs.yoctoproject.org/singleindex.html)
 - [Yocto Project Presentation Videos](https://www.yoctoproject.org/learn/presentation-videos/)
 - [Alessandro Flaminio's Master Thesis](https://webthesis.biblio.polito.it/9085/1/tesi.pdf)
+- [Yocto Project Mega Manual](https://docs.yoctoproject.org/singleindex.html)
+- [BitBake User Manual](https://docs.yoctoproject.org/bitbake/singleindex.html)
 
 ## Build instructions
 
