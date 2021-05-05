@@ -63,6 +63,7 @@ The embedded Linux system is built from recipes available in the following layer
   - [meta-oe](https://layers.openembedded.org/layerindex/branch/master/layer/meta-oe/) - provides hostapd
   - [meta-networking](https://layers.openembedded.org/layerindex/branch/master/layer/meta-networking/) - provides dnsmasq
   - [meta-python](https://layers.openembedded.org/layerindex/branch/master/layer/meta-python/)
+- [meta-clang](https://github.com/kraj/meta-clang) - builds the system with [Clang](https://clang.llvm.org) - a LLVM based front-end and back-end for compiling C/C++ that is unencumbered by GPL.
 
 ---
 
