@@ -407,6 +407,22 @@ enable_uart=1
 
 ---
 
+### Enable ADB daemon
+
+Once you can log in via HDMI display, or the serial console, you can enable [ADB](https://developer.android.com/studio/command-line/adb) daemon on the device
+
+```bash
+touch /var/usb-debugging-enabled
+reboot
+```
+
+Then, on a host machine connected to the device, via USB OTG port, you should be able to list the device, and gain shell access
+
+```bash
+adb devices
+adb shell
+---
+
 ### Configure audio
 
 `alsa-utils` package is built into the image. You can disable it by removing the `audio` section in kas configuration.

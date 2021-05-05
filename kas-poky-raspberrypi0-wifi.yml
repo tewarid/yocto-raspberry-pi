@@ -82,3 +82,8 @@ local_conf_header:
     IMAGE_INSTALL_append = " python3 python3-dbus"
   audio: |
     IMAGE_INSTALL_append = " alsa-utils"
+  usb: |
+    ENABLE_DWC2_PERIPHERAL = "1"
+  adb: |
+    IMAGE_INSTALL_append = " android-tools-adbd"
+    PREFERRED_PROVIDER_android-tools-conf = "android-tools-conf-configfs"
