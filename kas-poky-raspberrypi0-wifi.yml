@@ -10,12 +10,12 @@ repos:
   meta-raspberry:
     url: http://git.yoctoproject.org/git/meta-raspberrypi
     path: layers/meta-raspberrypi
-    refspec: f9a13f3b9a90f4f033afa9f34b66ca7432a7742b
+    refspec: 8cffbf5e8534e824c81541802d7a2298100054b5
 
   poky:
     url: http://git.yoctoproject.org/git/poky
     path: layers/poky
-    refspec: ea455ca8671d3bc2a1097989bfaabe92f3ca37ab
+    refspec: hardknott
     layers:
       meta:
       meta-poky:
@@ -31,7 +31,7 @@ repos:
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded
     path: layers/meta-openembedded
-    refspec: ba2576ed79a09879f714ccf7f4fa32259c18ab8c
+    refspec: hardknott
     layers:
       meta-oe:
       meta-python:
