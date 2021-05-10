@@ -15,6 +15,6 @@ WORKDIR /home/yoctouser/berry
 
 SHELL ["/bin/bash", "-c"] 
 
-RUN --mount=type=ssh,mode=777 kas build kas-poky-raspberrypi0-wifi.yml
+RUN kas build kas-poky-raspberrypi0-wifi.yml
 
 # At this point you can copy files to host if needed

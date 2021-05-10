@@ -126,6 +126,8 @@ raspberrypi4      | Raspberry Pi 4 32-bit build
 
 ### Access private Git repos in build
 
+_If you have encrypted your home folder using ecryptfs, you cannot use the procedure below._
+
 Run ssh-agent on host and add default `~/.ssh/id_rsa` key
 
 ```bash
@@ -135,7 +137,11 @@ ssh-add ~/.ssh/id_rsa
 ssh-add -l
 ```
 
-The last command in the sequence above should list the key you added.
+Edit [Dockerfile](Dockerfile) and add `--mount=type=ssh,mode=777` to build
+
+```dockerfile
+RUN --mount=type=ssh,mode=777 kas build kas-poky-raspberrypi0-wifi.yml
+```
 
 Build with [BuildKit or `docker buildx`](https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/syntax.md)
 
@@ -187,6 +193,8 @@ Note that BitBake may fail with [Invalid cross-device link error](https://github
 ---
 
 #### Access private Git repos in container
+
+_If you have encrypted your home folder using ecryptfs, you cannot use the procedure below._
 
 Create Docker container with access to [ssh-agent on host](#access-private-git-repos-in-build)
 
