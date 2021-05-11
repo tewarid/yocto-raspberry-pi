@@ -40,7 +40,7 @@ repos:
   meta-clang:
     url: https://github.com/kraj/meta-clang.git
     path: layers/meta-clang
-    refspec: 404e8129c26ea5387a51248eebff1820db6f5015
+    refspec: hardknott
 
 bblayers_conf_header:
   standard: |
