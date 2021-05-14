@@ -66,6 +66,8 @@ local_conf_header:
         ABORT,${DL_DIR},100M,1K \
         ABORT,${SSTATE_DIR},100M,1K \
         ABORT,/tmp,10M,1K"
+  console: |
+    ENABLE_UART = "1"
   clang: |
     TOOLCHAIN ?= "clang"
     RUNTIME = "llvm"

@@ -386,23 +386,15 @@ A login shell is available through HDMI display. Log in as root with a blank pas
 
 ---
 
-### Enable serial console
+### Serial console
 
-To use device without an HDMI display i.e. headless, enable [serial console through expansion headers](https://www.raspberrypi.org/documentation/configuration/uart.md).
+To log in to device without an HDMI display, use a [USB to TTL Serial 3.3V cable](https://www.adafruit.com/product/954) connected to the expansion header.
 
-Navigate to DOS boot partition of SD Card on host machine.
+To disable serial console, comment out the following section in `kas-poky-raspberrypi0-wifi.yml`
 
-Add `console=ttyS0,115200` to kernel command line in file `cmdline.txt`
-
-```text
-dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4
- console=ttyS0,115200 console=tty1 rootwait
-```
-
-At the end of `config.txt` file, add
-
-```conf
-enable_uart=1
+```yml
+  console: |
+    ENABLE_UART = "1"
 ```
 
 ---
@@ -425,7 +417,7 @@ adb shell
 
 ### Configure audio
 
-`alsa-utils` package is built into the image. You can disable it by removing the `audio` section in kas configuration.
+`alsa-utils` package is built into the image. You can disable it by removing the `audio` section in `kas-poky-raspberrypi0-wifi.yml`.
 
 To see a list of device names
 
