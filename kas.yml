@@ -93,3 +93,10 @@ local_conf_header:
   audio: |
     IMAGE_INSTALL_append = " alsa-utils alsa-plugins"
     MACHINE_FEATURES += "wm8960"
+  toybox: |
+    VIRTUAL-RUNTIME_base-utils = "toybox"
+    VIRTUAL-RUNTIME_login_manager = "toybox"
+    PREFERRED_PROVIDER_virtual/base-utils = "toybox"
+    VIRTUAL-RUNTIME_base-utils-hwclock = "toybox"
+    VIRTUAL-RUNTIME_base-utils-syslog = "toybox"
+    IMAGE_INSTALL_append = " dhcpcd"
