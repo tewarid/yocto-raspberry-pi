@@ -10,7 +10,7 @@ repos:
   meta-raspberry:
     url: http://git.yoctoproject.org/git/meta-raspberrypi
     path: layers/meta-raspberrypi
-    refspec: 8cffbf5e8534e824c81541802d7a2298100054b5
+    refspec: hardknott
 
   poky:
     url: http://git.yoctoproject.org/git/poky
