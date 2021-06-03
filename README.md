@@ -52,7 +52,7 @@ You'll also need to understand [Dockerfile syntax](https://docs.docker.com/engin
 
 #### Layers and Recipes
 
-The embedded Linux system is built from recipes available in the following layers. A recipe typically builds one software package for the target machine, and its native, native SDK, debug, development, and documentation packages.
+The embedded Linux system is built from recipes available in the following layers. A recipe typically builds one software package for the target machine, and its native, native SDK, debug, development, source, and documentation packages.
 
 - poky - core Yocto Project container layer that provides
   - meta - [openembedded-core](https://layers.openembedded.org/layerindex/branch/master/layer/openembedded-core/) distro-less layer
