@@ -490,3 +490,34 @@ dbus-send --system --print-reply \
   string:"Powered" \
   variant:boolean:true
 ```
+
+---
+
+#### WM8960 soundcard support
+
+Support is enabled for [ReSpeaker 2-Mic Pi Hat](https://wiki.seeedstudio.com/ReSpeaker_2_Mics_Pi_HAT/) and similar hats.
+
+You need to adjust volume and toggle some switches that are off by default
+
+```bash
+amixer -c1 sset 'Headphone',0 80%,80%
+amixer -c1 sset 'Speaker',0 80%,80%
+amixer -c1 sset 'Left Input Mixer Boost' toggle
+amixer -c1 sset 'Left Output Mixer PCM' toggle
+amixer -c1 sset 'Right Input Mixer Boost' toggle
+amixer -c1 sset 'Right Output Mixer PCM' toggle
+```
+
+The following should output white noise
+
+```bash
+speaker-test -c2 -Dhw:1
+```
+
+The following should loop mic input to speaker
+
+```bash
+arecord -f cd -Dhw:1 | aplay -Dhw:1
+```
+
+Note that [audio capture on a ReSpeaker 2-Mic Pi Hat is very noisy](https://github.com/raspberrypi/linux/issues/4384).
