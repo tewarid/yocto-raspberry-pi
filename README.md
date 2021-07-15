@@ -401,19 +401,21 @@ To disable serial console, comment out the following section in `kas-poky-raspbe
 
 ### Enable ADB daemon
 
-Once you can log in via HDMI display, or the serial console, you can enable [ADB](https://developer.android.com/studio/command-line/adb) daemon on the device
+To enable [adbd](https://developer.android.com/studio/command-line/adb) on the device
 
 ```bash
 touch /var/usb-debugging-enabled
 reboot
 ```
 
-Then, on a host machine connected to the device, via USB OTG port, you should be able to list the device, and gain shell access
+To list the device and gain shell access, on a host machine connected to the device via USB OTG port
 
 ```bash
 adb devices
 adb shell
 ---
+
+To disable USB debugging at build time, remove `USB_DEBUGGING_ENABLED` or set to "0".
 
 ### Configure audio
 

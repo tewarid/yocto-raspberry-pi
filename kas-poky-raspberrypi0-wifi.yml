@@ -36,6 +36,10 @@ repos:
       meta-oe:
       meta-python:
       meta-networking:
+    patches:
+      flag-to-enable-adbd-at-build-time:
+        repo: meta-openembedded
+        path: ../../patches/0001-Add-flag-to-enable-adbd-at-build-time.patch
 
   meta-clang:
     url: https://github.com/kraj/meta-clang.git
@@ -91,3 +95,4 @@ local_conf_header:
   adb: |
     IMAGE_INSTALL_append = " android-tools-adbd"
     PREFERRED_PROVIDER_android-tools-conf = "android-tools-conf-configfs"
+    USB_DEBUGGING_ENABLED = "1"
