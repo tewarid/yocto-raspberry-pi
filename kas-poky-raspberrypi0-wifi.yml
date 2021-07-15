@@ -85,7 +85,9 @@ local_conf_header:
   audio: |
     IMAGE_INSTALL_append = " alsa-utils"
   usb: |
-    ENABLE_DWC2_PERIPHERAL = "1"
+    RPI_EXTRA_CONFIG += '\
+    dtoverlay=dwc2,dr_mode=otg\n\
+    '
   adb: |
     IMAGE_INSTALL_append = " android-tools-adbd"
     PREFERRED_PROVIDER_android-tools-conf = "android-tools-conf-configfs"
