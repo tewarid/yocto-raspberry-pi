@@ -46,6 +46,9 @@ repos:
     path: layers/meta-clang
     refspec: hardknott
 
+  meta-berry:
+    path: layers/meta-berry
+
 bblayers_conf_header:
   standard: |
     POKY_BBLAYERS_CONF_VERSION = "2"
