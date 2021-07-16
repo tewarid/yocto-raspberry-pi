@@ -24,9 +24,6 @@ repos:
       use-bb.utils.rename-to-rename-file-or-directory:
         repo: poky
         path: ../../patches/0001-use-bb.utils.rename-to-rename-file-or-directory.patch
-      handle-cross-device-link-error-in-createrepo_c:
-        repo: poky
-        path: ../../patches/0001-handle-cross-device-link-error-in-createrepo_c.patch
 
   meta-openembedded:
     url: git://git.openembedded.org/meta-openembedded

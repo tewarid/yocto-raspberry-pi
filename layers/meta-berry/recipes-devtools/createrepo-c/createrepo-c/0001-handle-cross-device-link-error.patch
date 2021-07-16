@@ -1,0 +1,124 @@
+From a54ee7e58bb64528f058138203cf74d1400ad2fe Mon Sep 17 00:00:00 2001
+From: Devendra Tewari <devendra.tewari@gmail.com>
+Date: Fri, 16 Jul 2021 09:47:47 -0300
+Subject: [PATCH] handle cross-device link error
+
+[YOCTO #14301]
+
+Signed-off-by: Devendra Tewari <devendra.tewari@gmail.com>
+---
+ cmake/Modules/FindGLIB2.cmake |  5 ++++
+ src/CMakeLists.txt            |  4 ++-
+ src/createrepo_c.c            | 51 +++++++++++++++++++++++++++++++++--
+ 3 files changed, 57 insertions(+), 3 deletions(-)
+
+diff --git a/cmake/Modules/FindGLIB2.cmake b/cmake/Modules/FindGLIB2.cmake
+index 2049522..db71883 100644
+--- a/cmake/Modules/FindGLIB2.cmake
++++ b/cmake/Modules/FindGLIB2.cmake
+@@ -64,6 +64,11 @@ find_library(GLIB2_LIBRARIES
+              HINTS ${PC_GLIB2_LIBDIR}
+ )
+ 
++find_library(GIO2_LIBRARIES
++             NAMES gio-2.0
++             HINTS ${PC_GLIB2_LIBDIR}
++)
++
+ # search the glibconfig.h include dir under the same root where the library is found
+ get_filename_component(glib2LibDir "${GLIB2_LIBRARIES}" PATH)
+ 
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 616c113..1501df5 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -89,7 +89,9 @@ ADD_EXECUTABLE(createrepo_c createrepo_c.c cmd_parser.c)
+ TARGET_LINK_LIBRARIES(createrepo_c
+                         libcreaterepo_c
+                         ${GLIB2_LIBRARIES}
+-                        ${GTHREAD2_LIBRARIES})
++                        ${GTHREAD2_LIBRARIES}
++                        ${GIO2_LIBRARIES})
++
+ 
+ ADD_EXECUTABLE(mergerepo_c mergerepo_c.c)
+ TARGET_LINK_LIBRARIES(mergerepo_c
+diff --git a/src/createrepo_c.c b/src/createrepo_c.c
+index f4f4544..015e453 100644
+--- a/src/createrepo_c.c
++++ b/src/createrepo_c.c
+@@ -30,6 +30,7 @@
+ #include <fcntl.h>
+ #include <stdint.h>
+ #include <unistd.h>
++#include <gio/gio.h>
+ #include "cmd_parser.h"
+ #include "compression_wrapper.h"
+ #include "createrepo_shared.h"
+@@ -547,6 +548,46 @@ load_old_metadata(cr_Metadata **md,
+               g_hash_table_size(cr_metadata_hashtable(*md)));
+ }
+ 
++gboolean
++copy_recursive(GFile *src, GFile *dest, GFileCopyFlags flags, GCancellable *cancellable, GError **error) {
++    GFileType src_type = g_file_query_file_type(src, G_FILE_QUERY_INFO_NONE, cancellable);
++    if (src_type == G_FILE_TYPE_DIRECTORY) {
++        g_file_make_directory(dest, cancellable, error);
++        g_file_copy_attributes(src, dest, flags, cancellable, error);
++
++        GFileEnumerator *enumerator = g_file_enumerate_children(src, G_FILE_ATTRIBUTE_STANDARD_NAME, G_FILE_QUERY_INFO_NONE, cancellable, error);
++        for (GFileInfo *info = g_file_enumerator_next_file(enumerator, cancellable, error); info != NULL; info = g_file_enumerator_next_file(enumerator, cancellable, error)) {
++            const char *relative_path = g_file_info_get_name(info);
++            copy_recursive(
++                g_file_resolve_relative_path(src, relative_path),
++                g_file_resolve_relative_path(dest, relative_path),
++                flags, cancellable, error);
++        }
++    } else if (src_type == G_FILE_TYPE_REGULAR) {
++        g_file_copy(src, dest, flags, cancellable, NULL, NULL, error);
++    }
++
++    return TRUE;
++}
++
++gboolean
++delete_recursive(GFile *file, GCancellable *cancellable, GError **error) {
++    GFileType file_type = g_file_query_file_type(file, G_FILE_QUERY_INFO_NONE, cancellable);
++    if (file_type == G_FILE_TYPE_DIRECTORY) {
++        GFileEnumerator *enumerator = g_file_enumerate_children(file, G_FILE_ATTRIBUTE_STANDARD_NAME, G_FILE_QUERY_INFO_NONE, cancellable, error);
++        for (GFileInfo *info = g_file_enumerator_next_file(enumerator, cancellable, error); info != NULL; info = g_file_enumerator_next_file(enumerator, cancellable, error)) {
++            delete_recursive(
++                g_file_resolve_relative_path(file, g_file_info_get_name(info)),
++                cancellable, error);
++        }
++        g_file_delete(file, cancellable, error);
++    } else if (file_type == G_FILE_TYPE_REGULAR) {
++        g_file_delete(file, cancellable, error);
++    }
++
++    return TRUE;
++}
++
+ int
+ main(int argc, char **argv)
+ {
+@@ -2022,8 +2063,14 @@ deltaerror:
+     g_free(tmp_dirname);
+ 
+     if (g_rename(out_repo, old_repodata_path) == -1) {
+-        g_debug("Old repodata doesn't exists: Cannot rename %s -> %s: %s",
+-                out_repo, old_repodata_path, g_strerror(errno));
++        if (errno == 18) {
++            // Invalid cross-device link
++            copy_recursive(g_file_new_for_path(out_repo), g_file_new_for_path(old_repodata_path), G_FILE_COPY_OVERWRITE, NULL, NULL);
++            delete_recursive(g_file_new_for_path(out_repo), NULL, NULL);
++        } else {
++            g_debug("Old repodata doesn't exists: Cannot rename %s -> %s: %s",
++                    out_repo, old_repodata_path, g_strerror(errno));
++        }
+     } else {
+         g_debug("Renamed %s -> %s", out_repo, old_repodata_path);
+         old_repodata_renamed = TRUE;
+-- 
+2.29.2
+
