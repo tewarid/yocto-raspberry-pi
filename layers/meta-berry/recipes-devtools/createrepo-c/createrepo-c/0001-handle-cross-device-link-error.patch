@@ -1,35 +1,31 @@
-From a54ee7e58bb64528f058138203cf74d1400ad2fe Mon Sep 17 00:00:00 2001
+From f1a32a8061c3f84d6619b9399635512d5e8c5061 Mon Sep 17 00:00:00 2001
 From: Devendra Tewari <devendra.tewari@gmail.com>
-Date: Fri, 16 Jul 2021 09:47:47 -0300
+Date: Sat, 17 Jul 2021 17:56:10 -0300
 Subject: [PATCH] handle cross-device link error
 
 [YOCTO #14301]
 
 Signed-off-by: Devendra Tewari <devendra.tewari@gmail.com>
 ---
- cmake/Modules/FindGLIB2.cmake |  5 ++++
- src/CMakeLists.txt            |  4 ++-
- src/createrepo_c.c            | 51 +++++++++++++++++++++++++++++++++--
- 3 files changed, 57 insertions(+), 3 deletions(-)
+ CMakeLists.txt     |  1 +
+ src/CMakeLists.txt |  4 +++-
+ src/createrepo_c.c | 51 ++++++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 53 insertions(+), 3 deletions(-)
 
-diff --git a/cmake/Modules/FindGLIB2.cmake b/cmake/Modules/FindGLIB2.cmake
-index 2049522..db71883 100644
---- a/cmake/Modules/FindGLIB2.cmake
-+++ b/cmake/Modules/FindGLIB2.cmake
-@@ -64,6 +64,11 @@ find_library(GLIB2_LIBRARIES
-              HINTS ${PC_GLIB2_LIBDIR}
- )
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3d9b6ea..633f825 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -40,6 +40,7 @@ find_package(OpenSSL REQUIRED)
+ find_package(ZLIB REQUIRED)
  
-+find_library(GIO2_LIBRARIES
-+             NAMES gio-2.0
-+             HINTS ${PC_GLIB2_LIBDIR}
-+)
-+
- # search the glibconfig.h include dir under the same root where the library is found
- get_filename_component(glib2LibDir "${GLIB2_LIBRARIES}" PATH)
- 
+ pkg_check_modules(GLIB2 REQUIRED glib-2.0)
++pkg_check_modules(GIO2 REQUIRED gio-2.0)
+ pkg_check_modules(GTHREAD2 REQUIRED gthread-2.0)
+ pkg_check_modules(LZMA REQUIRED liblzma)
+ pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 616c113..1501df5 100644
+index 64de052..95ddaed 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -89,7 +89,9 @@ ADD_EXECUTABLE(createrepo_c createrepo_c.c cmd_parser.c)

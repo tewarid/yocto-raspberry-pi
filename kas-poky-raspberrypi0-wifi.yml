@@ -8,27 +8,23 @@ target:
 
 repos:
   meta-raspberry:
-    url: http://git.yoctoproject.org/git/meta-raspberrypi
+    url: https://git.yoctoproject.org/git/meta-raspberrypi
     path: layers/meta-raspberrypi
-    refspec: hardknott
+    refspec: master
 
   poky:
-    url: http://git.yoctoproject.org/git/poky
+    url: https://git.yoctoproject.org/git/poky
     path: layers/poky
-    refspec: hardknott-3.3.1
+    refspec: master
     layers:
       meta:
       meta-poky:
       meta-yocto-bsp:
-    patches:
-      use-bb.utils.rename-to-rename-file-or-directory:
-        repo: poky
-        path: ../../patches/0001-use-bb.utils.rename-to-rename-file-or-directory.patch
 
   meta-openembedded:
-    url: git://git.openembedded.org/meta-openembedded
+    url: http://git.openembedded.org/meta-openembedded
     path: layers/meta-openembedded
-    refspec: hardknott
+    refspec: master
     layers:
       meta-oe:
       meta-python:
@@ -41,7 +37,7 @@ repos:
   meta-clang:
     url: https://github.com/kraj/meta-clang.git
     path: layers/meta-clang
-    refspec: hardknott
+    refspec: master
 
   meta-berry:
     path: layers/meta-berry
@@ -56,7 +52,7 @@ local_conf_header:
     CONF_VERSION = "1"
     PACKAGE_CLASSES = "package_rpm"
     SDKMACHINE = "x86_64"
-    USER_CLASSES = "buildstats image-mklibs image-prelink"
+    USER_CLASSES = "buildstats image-prelink"
     PATCHRESOLVE = "noop"
   debug-tweaks: |
     EXTRA_IMAGE_FEATURES = "debug-tweaks"
