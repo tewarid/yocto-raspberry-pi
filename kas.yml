@@ -42,6 +42,9 @@ repos:
   meta-berry:
     path: layers/meta-berry
 
+  meta-matter:
+    path: layers/meta-matter
+
 bblayers_conf_header:
   standard: |
     POKY_BBLAYERS_CONF_VERSION = "2"
@@ -93,3 +96,5 @@ local_conf_header:
   audio: |
     IMAGE_INSTALL_append = " alsa-utils alsa-plugins"
     MACHINE_FEATURES += "wm8960"
+  matter: |
+    IMAGE_INSTALL_append = " matter"

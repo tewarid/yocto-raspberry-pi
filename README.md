@@ -555,3 +555,49 @@ arecord -f cd -Dhw:1 | aplay -Dhw:1
 ```
 
 Note that [audio capture on a ReSpeaker 2-Mic Pi Hat is very noisy](https://github.com/raspberrypi/linux/issues/4384).
+
+### Matter
+
+[Matter](https://buildwithmatter.com) is a connectivity standard and implementation for home devices. The [meta-matter](layers/meta-matter) layer builds and installs the `chip-all-clusters-app` in the device image.
+
+Run the app to use IP networking over Wi-Fi
+
+```bash
+chip-all-clusters-app --wifi
+```
+
+The app prints out certain information relevant to provisioning
+
+```text
+[1616582637.107690][318:318] CHIP:DL: Device Configuration:
+[1616582637.109156][318:318] CHIP:DL:   Serial Number: TEST_SN
+[1616582637.111558][318:318] CHIP:DL:   Vendor Id: 9050 (0x235A)
+[1616582637.112688][318:318] CHIP:DL:   Product Id: 65279 (0xFEFF)
+[1616582637.116369][318:318] CHIP:DL:   Product Revision: 1
+[1616582637.117586][318:318] CHIP:DL:   Setup Pin Code: 20202021
+[1616582637.118789][318:318] CHIP:DL:   Setup Discriminator: 3840 (0xF00)
+[1616582637.118995][318:318] CHIP:DL:   Manufacturing Date: (not set)
+[1616582637.119166][318:318] CHIP:DL:   Device Type: 65535 (0xFFFF)
+[1616582637.119449][318:318] CHIP:SVR: SetupQRCode: [MT:YNJV7VSC00KA0648G00]
+[1616582637.120936][318:318] CHIP:SVR: Copy/paste the below URL in a browser to see the QR Code:
+[1616582637.122129][318:318] CHIP:SVR: https://dhrishi.github.io/connectedhomeip/qrcode.html?data=MT%3AYNJV7VSC00KA0648G00
+[1616582637.123079][318:318] CHIP:SVR: Manual pairing code: [34970112332]
+```
+
+Provision app using `chip-tool` over Bluetooth LE
+
+```bash
+chip-tool pairing ble-wifi ssid "password" 0 20202021 3840
+```
+
+To toggle onoff switch at endpoint 1
+
+```bash
+chip-tool onoff toggle 1
+```
+
+To clear storage and start over
+
+```bash
+rm /tmp/chip_*
+```

@@ -1,0 +1,37 @@
+From afcdfd7d494a5068a45f1718eab1ba3366ac595f Mon Sep 17 00:00:00 2001
+From: Devendra Tewari <devendra.tewari@gmail.com>
+Date: Thu, 8 Jul 2021 14:29:50 -0300
+Subject: [PATCH] Use udhcpc instead of dhclient
+
+---
+ src/platform/Linux/ConnectivityManagerImpl.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/platform/Linux/ConnectivityManagerImpl.cpp b/src/platform/Linux/ConnectivityManagerImpl.cpp
+index 5ed6c5f1d96..27261afa3ac 100644
+--- a/src/platform/Linux/ConnectivityManagerImpl.cpp
++++ b/src/platform/Linux/ConnectivityManagerImpl.cpp
+@@ -940,15 +940,15 @@ CHIP_ERROR ConnectivityManagerImpl::ProvisionWiFiNetwork(const char * ssid, cons
+             // Run dhclient for IP on WiFi.
+             // TODO: The wifi can be managed by networkmanager on linux so we don't have to care about this.
+             char cmdBuffer[128];
+-            sprintf(cmdBuffer, "dhclient -nw %s", CHIP_DEVICE_CONFIG_WIFI_STATION_IF_NAME);
+-            int dhclientSystemRet = system(cmdBuffer);
+-            if (dhclientSystemRet != 0)
++            sprintf(cmdBuffer, "udhcpc -i %s", CHIP_DEVICE_CONFIG_WIFI_STATION_IF_NAME);
++            int dhcpClientSystemRet = system(cmdBuffer);
++            if (dhcpClientSystemRet != 0)
+             {
+-                ChipLogError(DeviceLayer, "Failed to run dhclient, system() returns %d", dhclientSystemRet);
++                ChipLogError(DeviceLayer, "Failed to run udhcpc, system() returns %d", dhcpClientSystemRet);
+             }
+             else
+             {
+-                ChipLogProgress(DeviceLayer, "dhclient is running on the %s interface.", CHIP_DEVICE_CONFIG_WIFI_STATION_IF_NAME);
++                ChipLogProgress(DeviceLayer, "udhcpc is running on the %s interface.", CHIP_DEVICE_CONFIG_WIFI_STATION_IF_NAME);
+             }
+ 
+             // Return success as long as the device is connected to the network
+-- 
+2.29.2
+
