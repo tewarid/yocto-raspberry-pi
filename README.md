@@ -78,6 +78,7 @@ Yocto Project provides no means to download layers, and setup configuration file
 - Generates build directory with
   - `conf/bblayers.conf` - list of layers to build
   - `conf/local.conf` - MACHINE and DISTRO configuration
+- Performs multiconfig builds specified via `KAS_TARGET` environment variable
 
 ---
 
@@ -155,6 +156,18 @@ raspberrypi3-64   | Raspberry Pi 3 64-bit build
 raspberrypi3      | Raspberry Pi 3 32-bit build
 raspberrypi4-64   | Raspberry Pi 4 64-bit build
 raspberrypi4      | Raspberry Pi 4 32-bit build
+
+---
+
+### Multiconfig build
+
+A multiconfig build file is available that can generate images for multiple targets at once
+
+```bash
+./build.sh
+```
+
+Additional targets can be added to [`build.sh`](build.sh) and configured under [`layers/meta-berry/conf/multiconfig`](layers/meta-berry/conf/multiconfig).
 
 ---
 
