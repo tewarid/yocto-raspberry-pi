@@ -73,7 +73,7 @@ Yocto Project provides no means to download layers, and setup configuration file
 
 [kas](https://github.com/siemens/kas) is a build tool for Yocto Project that
 
-- Is configured through a [single file in YAML format](kas-poky-raspberrypi0-wifi.yml)
+- Is configured through YAML or JSON e.g. [kas.yml](kas.yml)
 - Downloads layers - checks out to a specified version, and applies patches
 - Generates build directory with
   - `conf/bblayers.conf` - list of layers to build
@@ -94,9 +94,42 @@ This section discusses how you can perform a build and save its history in a Doc
 
 ---
 
-### Build using Docker
+### Prepare a Docker container for build
 
-Clone the project repo and run
+Create a Docker container
+
+```bash
+docker run -it --name berrydev crops/yocto:ubuntu-20.04-base
+```
+
+Open a privileged shell to install kas
+
+```bash
+docker exec -it -u 0 berrydev /bin/bash
+```
+
+Install kas
+
+```bash
+apt install python3-pip
+pip3 install kas
+```
+
+---
+
+### Build on a Linux host or Docker container
+
+```bash
+git clone https://github.com/tewarid/berry
+cd berry
+kas build kas.yml
+```
+
+---
+
+### Build using Docker Build
+
+Clone the project repo on host and run
 
 ```bash
 git clone https://github.com/tewarid/berry
@@ -108,7 +141,7 @@ docker build -t berry:latest .
 
 ### Pick a different Raspberry Pi
 
-By default, the image is built for Raspberry Pi Zero Wi-Fi. Edit `machine` in `kas-poky-raspberrypi0-wifi.yml` to build for a different model
+By default, the image is built for Raspberry Pi Zero Wi-Fi. Edit `machine` in `kas.yml` to build for a different model
 
 MACHINE           | Model
 ----------------- | -----------------------------
@@ -141,7 +174,7 @@ ssh-add -l
 Edit [Dockerfile](Dockerfile) and add `--mount=type=ssh,mode=777` to build
 
 ```dockerfile
-RUN --mount=type=ssh,mode=777 kas build kas-poky-raspberrypi0-wifi.yml
+RUN --mount=type=ssh,mode=777 kas build kas.yml
 ```
 
 Build with [BuildKit or `docker buildx`](https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/syntax.md)
@@ -186,7 +219,7 @@ docker ps -a
 Make the necessary changes to source code and rebuild
 
 ```bash
-kas build kas-poky-raspberrypi0-wifi.yml
+kas build kas.yml
 ```
 
 Note that BitBake may fail with [Invalid cross-device link error](https://github.com/tewarid/berry/issues/1). Follow the link for additional information and a patch.
@@ -390,12 +423,13 @@ A login shell is available through HDMI display. Log in as root with a blank pas
 
 To log in to device without an HDMI display, use a [USB to TTL Serial 3.3V cable](https://www.adafruit.com/product/954) connected to the expansion header.
 
-To disable serial console, comment out the following section in `kas-poky-raspberrypi0-wifi.yml`
+To disable serial console, comment out the following section in `kas.yml`
 
 ```yml
   console: |
     ENABLE_UART = "1"
-```
+
+
 
 ---
 
@@ -419,7 +453,7 @@ To disable USB debugging at build time, remove `USB_DEBUGGING_ENABLED` or set to
 
 ### Configure audio
 
-`alsa-utils` package is built into the image. You can disable it by removing the `audio` section in `kas-poky-raspberrypi0-wifi.yml`.
+`alsa-utils` package is built into the image. You can disable it by removing the `audio` section in `kas.yml`.
 
 To see a list of device names
 
