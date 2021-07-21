@@ -555,3 +555,55 @@ arecord -f cd -Dhw:1 | aplay -Dhw:1
 ```
 
 Note that [audio capture on a ReSpeaker 2-Mic Pi Hat is very noisy](https://github.com/raspberrypi/linux/issues/4384).
+
+## HomeKitADK
+
+HomeKitADK recipe is meant to build applications and tools provided as part of the [HomeKitADK](https://github.com/apple/HomeKitADK) so that they are available to run on the device.
+
+The following binaries are available in the `/usr/bin` directory
+
+- Lightbulb.OpenSSL
+- Lock.OpenSSL
+- AccessorySetupGenerator.OpenSSL
+
+---
+
+### Provision accessory
+
+`AccessorySetupGenerator.OpenSSL` is used by Bash script `Tools/provision_raspi.sh` to generate configuration files in a `.HomeKitStore/` directory. This system lacks bash hence that script is not made available.
+
+You can generate `.HomeKitStore/` on another Linux system such as Ubuntu
+
+```bash
+sudo apt install clang libavahi-compat-libdnssd-dev qrencode
+git clone https://github.com/apple/HomeKitADK.git
+cd HomeKitADK
+make TARGET=Linux DOCKER=0 apps tools
+# Generate provisioning information for a Light bulb
+./Tools/provision_raspi.sh --category 5 .HomeKitStore
+```
+
+Note the setup code printed by `provision_raspi.sh`.
+
+Copy over `.HomeKitStore/` to the device and run `Lightbulb.OpenSSL` in the same directory
+
+```bash
+./Output/Linux-x86_64-pc-linux-gnu/Debug/IP/Applications/Lightbulb.OpenSSL
+```
+
+You should now be able to pair the light bulb in the iOS Home app.
+
+---
+
+### Add accessory in iOS
+
+Apps `Lightbulb.OpenSSL` and `Lock.OpenSSL` simulate accessories after which they are named.
+
+To add the accessory in Home app in iOS
+
+- Open the _Home_ app
+- Tap the “+” icon in the top right corner and tap _Add Accessory_
+- Tap _I Don't Have a Code or Cannot Scan_
+- Select _Acme Light Bulb_ or _Acme Lock_, as appropriate
+- Enter setup code
+- Tap _Continue_ to add

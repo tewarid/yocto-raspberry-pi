@@ -1,0 +1,41 @@
+diff --git a/Build/Makefile b/Build/Makefile
+index 76622ee..4d37d04 100644
+--- a/Build/Makefile
++++ b/Build/Makefile
+@@ -42,13 +42,13 @@ CFLAGS_Debug := -O0 -g -DHAP_LOG_LEVEL=$(LOG_LEVEL_Debug) -DHAP_TESTING
+ CFLAGS_Test :=  -O0 -g -DHAP_LOG_LEVEL=$(LOG_LEVEL_Test) -DHAP_TESTING
+ CFLAGS_Release := -O2 -g -DHAP_LOG_LEVEL=$(LOG_LEVEL_Release) -DHAP_DISABLE_ASSERTS=1 -DHAP_DISABLE_PRECONDITIONS=1
+ 
+-OPENSSL_PATH = $(firstword $(wildcard /usr/local/Cellar/openssl@1.1/*))
++OPENSSL_PATH =
+ MBEDTLS_PATH = $(firstword $(wildcard /usr/include/mbedtls) $(wildcard /usr/local/Cellar/mbedtls/*))
+ 
+ -include Build/Makefile.$(PAL)
+ 
+-CFLAGS_OpenSSL := -I$(OPENSSL_PATH)/include
+-LDFLAGS_OpenSSL := -L$(OPENSSL_PATH)/lib -lcrypto
++CFLAGS_OpenSSL :=
++LDFLAGS_OpenSSL := -lcrypto
+ 
+ CFLAGS_MbedTLS := -I$(MBEDTLS_PATH)/include
+ LDFLAGS_MbedTLS := -L$(MBEDTLS_PATH)/lib -lmbedcrypto
+diff --git a/Build/Makefile.Linux b/Build/Makefile.Linux
+index 5e47ff7..fedb19b 100644
+--- a/Build/Makefile.Linux
++++ b/Build/Makefile.Linux
+@@ -1,5 +1,5 @@
+ 
+-CC := clang
++CC ?= clang
+ AR := ar
+ COMPILER := $(shell $(CC) --version | grep "Target:" | cut -d ' ' -f 2)
+ DEBUGGER := gdb
+@@ -10,7 +10,7 @@ CRYPTO_Linux := PAL/Crypto/OpenSSL
+ CFLAGS_Linux := $(CFLAGS_IP) -ffunction-sections -fdata-sections
+ LDFLAGS_Linux := -ldns_sd -pthread -lm
+ ifeq ($(BUILD_TYPE),Release)
+-    LDFLAGS_Linux += -Wl,--gc-sections -Wl,--as-needed -Wl,--strip-all
++    LDFLAGS_Linux += -Wl,--gc-sections -Wl,--as-needed
+ endif
+ 
+ LINK_BEGIN_Linux := -Wl,--start-group

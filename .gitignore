@@ -2,3 +2,4 @@ build/
 tmp/
 layers/*
 !layers/meta-berry
+!layers/meta-homekitadk

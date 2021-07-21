@@ -42,6 +42,9 @@ repos:
   meta-berry:
     path: layers/meta-berry
 
+  homekitadk:
+    path: layers/meta-homekitadk
+
 bblayers_conf_header:
   standard: |
     POKY_BBLAYERS_CONF_VERSION = "2"
@@ -93,3 +96,7 @@ local_conf_header:
   audio: |
     IMAGE_INSTALL_append = " alsa-utils alsa-plugins"
     MACHINE_FEATURES += "wm8960"
+  homekitadk: |
+    PACKAGECONFIG_pn-avahi += "libdns_sd"
+    IMAGE_INSTALL_append = " homekitadk"
+    HOMEKITADK_BUILD_TYPE = "Debug"
